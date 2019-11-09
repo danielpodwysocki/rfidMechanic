@@ -32,6 +32,12 @@ import tkinter as tk
 from views.EqualDeal import EqualDeal
 from Reader import Reader
 import threading
+from bottle import route,run,HTTPResponse
+from time import sleep
+import json
+
+from math import floor
+
 LARGE_FONT = 10
 MEDIUM_FONT = 5
 class App(tk.Tk):
@@ -45,9 +51,9 @@ class App(tk.Tk):
         
         container.pack(side="top", fill="both", expand = True)
         
-        #container.grid_rowconfigure(0,weight=1) #0 - min size, weight = 1 - priority
-        #container.grid_columnconfigure(0, weight=1)
-        
+#         container.grid_rowconfigure(0,weight=1) #0 - min size, weight = 1 - priority
+#         container.grid_columnconfigure(0, weight=1)
+#         container.grid()
         frame = EqualDeal(container,self,2) #set start frame
         
         self.frames[EqualDeal] = frame # the key is the id(EqualDeal) of the class apparently (according to stack overflow). 
@@ -55,9 +61,10 @@ class App(tk.Tk):
         
         
         frame.grid(row=0,column=0, sticky="nsew") #set the grid INSIDE of the frame
-        print('lol')
+        
         threading.Thread(target=self.getCards).start()
-        print('xdd')
+        threading.Thread(target=self.startServer).start()
+        
         self.cardsUpdate()
         self.changeFrame(EqualDeal)
 #         self.proc = Process(target=self.getCards)
@@ -78,8 +85,26 @@ class App(tk.Tk):
     
     def clearCards(self):
         self.cards.clear()
-
+    def toNames(self, number):
+        '''
+        this method turns a card number into the card symbol + first letter of the suit format (AC - ace of clubs)
+        '''
+        suits = ['c','h','s','d']
+#         suits = ['clubs, hearts, spades','diamonds']
+        cards = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
+        suit = floor((number-1)/13.0) # 13 cards in a suite, king of clubs is 13, ace of hearts is 14, so we subtract one to make the logic work
+        card = number-1 - suit*13 #again, cards are in the "human" form, so we subtract one from the card number
+        return cards[card]+suits[suit]
+    def startServer(self):
+        @route("/getcards")
+        def index():
+            return HTTPResponse(json.dumps(self.cards))
         
+        run(host='localhost',port=8080)
+        while True:
+            time.sleep(1)
+    
+    
 myApp = App()
 myApp.mainloop()
 

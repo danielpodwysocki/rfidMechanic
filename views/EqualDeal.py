@@ -10,14 +10,20 @@ class EqualDeal(tk.Frame):
     cardLabels=[]
     labels=[]
     def __init__(self, parent, controller, players):
+        self.controller = controller
+        
         self.players = players
         tk.Frame.__init__(self, parent)
-        
+        self.columnconfigure(4,weight=1)
+        self.rowconfigure(20,weight=1)
         self.spin = tk.Spinbox(master=parent, from_=2, to=15,command=self.spinUpdate)
-        self.spin.grid(pady=10,padx=100,column=2,row=0)
-        self.ClearCards = tk.Button(self, text="Clear cards lol",command=controller.clearCards)
-        self.ClearCards.grid(pady=10,padx=10,column=3,row=0)
+        self.spin.grid(pady=10,padx=100,column=2,row=1,sticky='NE')
+
+        self.ClearCards = tk.Button(master=parent,text="Clear cards",command=controller.clearCards)
+        self.ClearCards.grid(pady=0,padx=100,column=2,row=0,sticky='NE')
+        
         self.updateLabels(players)
+        
 
     def updateCards(self,cards):
         '''
@@ -31,7 +37,8 @@ class EqualDeal(tk.Frame):
             print(c)
             if i==self.players:
                 i=0
-            self.cardLabels[i]['text']+=str(c)+" "
+#             self.cardLabels[i]['text']+=str(c)+" "
+            self.cardLabels[i]['text']+=self.controller.toNames(c)+" "
             print(self.cardLabels[i]['text'])
             #print(i)
             i+=1
@@ -68,5 +75,3 @@ class EqualDeal(tk.Frame):
         self.players=int(self.spin.get())
         self.updateLabels(self.spin.get())
         
-        
-

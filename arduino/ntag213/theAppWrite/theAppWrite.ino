@@ -41,7 +41,7 @@ void setup() {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-  buffer[0]=36; //type in card number here 
+  buffer[0]=29; //type in card number here 
 
 }
 
@@ -73,7 +73,7 @@ void loop() {
 
 
 
-  // Read data ***************************************************
+ /* // Read data ***************************************************
   Serial.println(F("Reading data ... "));
   //data in 4 block is readed at once.
   status = (MFRC522::StatusCode) mfrc522.MIFARE_Read(pageAddr, buffer, &size);
@@ -89,7 +89,7 @@ void loop() {
     Serial.write(buffer[i]);
   }
   Serial.println();
-
+*/
   mfrc522.PICC_HaltA();
 
 }
