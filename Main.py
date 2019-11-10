@@ -32,7 +32,7 @@ import tkinter as tk
 from views.EqualDeal import EqualDeal
 from Reader import Reader
 import threading
-from bottle import route,run,HTTPResponse
+from bottle import route,run,HTTPResponse,static_file
 from time import sleep
 import json
 
@@ -97,9 +97,22 @@ class App(tk.Tk):
         return cards[card]+suits[suit]
     def startServer(self):
         @route("/getcards")
-        def index():
+        def getcards():
             return HTTPResponse(json.dumps(self.cards))
         
+        @route("/")
+        def index():
+            return static_file('index.html',root='webMechanic')
+        
+        @route("/main.css")
+        def css():
+            return static_file('main.css',root='webMechanic')
+        
+        @route("/mechanic.js")
+        def mechanic():
+            return static_file('mechanic.js',root='webMechanic')
+            
+            
         run(host='localhost',port=8080)
         while True:
             time.sleep(1)
