@@ -1,18 +1,51 @@
 body{
-	display:grid;
-	grid-template-columns:repeat(3,1fr);
-	grid-column-gap:1vw;
-	grid-row-gap:1vw;
 	padding:0;
 	margin: 0;
+}
+
+#equalDeal{
+	width: 100vw;
+	padding-top:1vw;
+}
+
+#equalDealGrid{
+	display:grid;
+	grid-template-columns:repeat(2,1fr);
+	grid-column-gap:1vw;
+	grid-row-gap:1vw;
+	width: 100vw;
+	backround:red;
 	
 }
 
 header{
 	height: 10vw;
-	background: blue;
-    grid-column-start:1;
-	grid-column-end:4;
+	width:100vw;
+	background:blue;
+
+	
 	
 }
 
+.player{
+	padding-bottom:2vw;
+	padding-top:2vw;
+}
+
+.playerSlider{
+	grid-column-start:1;
+	grid-column-end:3;
+	padding: 2vw;
+
+}
+
+
+.playerSlider input{
+	width:60vw;
+	float:right;
+}
+
+.playerSlider span{
+	font-size: 2vw;
+	
+}
