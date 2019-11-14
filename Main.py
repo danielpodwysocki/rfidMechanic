@@ -28,8 +28,6 @@
 #          
 # t = Main()
 # t.run()
-import tkinter as tk
-from views.EqualDeal import EqualDeal
 from Reader import Reader
 import threading
 from bottle import route,run,HTTPResponse,static_file
@@ -40,61 +38,26 @@ from math import floor
 
 LARGE_FONT = 10
 MEDIUM_FONT = 5
-class App(tk.Tk):
-    frames={}
+class App():
     cards=[]
     reader = Reader()
     
     def __init__(self,*args,**kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
-        container = tk.Frame(self)
-        
-        container.pack(side="top", fill="both", expand = True)
-        
-#         container.grid_rowconfigure(0,weight=1) #0 - min size, weight = 1 - priority
-#         container.grid_columnconfigure(0, weight=1)
-#         container.grid()
-        frame = EqualDeal(container,self,2) #set start frame
-        
-        self.frames[EqualDeal] = frame # the key is the id(EqualDeal) of the class apparently (according to stack overflow). 
-        #pretty cool and i guess i'll stick with it
         
         
-        frame.grid(row=0,column=0, sticky="nsew") #set the grid INSIDE of the frame
         
         threading.Thread(target=self.getCards).start()
         threading.Thread(target=self.startServer).start()
         
-        self.cardsUpdate()
-        self.changeFrame(EqualDeal)
-#         self.proc = Process(target=self.getCards)
-#         self.proc.start()
-    def changeFrame(self, controller):
-        frame = self.frames[controller]
-        frame.tkraise()
     def getCards(self):
         self.cards.append(self.reader.lastRead())
         print(self.cards)
         self.getCards()
-    def cardsUpdate(self):
-
-        frame = self.frames[EqualDeal]
-        frame.updateCards(self.cards)
-        print(self.cards)
-        self.after(500,self.cardsUpdate)
     
     def clearCards(self):
         self.cards.clear()
-    def toNames(self, number):
-        '''
-        this method turns a card number into the card symbol + first letter of the suit format (AC - ace of clubs)
-        '''
-        suits = ['c','h','s','d']
-#         suits = ['clubs, hearts, spades','diamonds']
-        cards = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
-        suit = floor((number-1)/13.0) # 13 cards in a suite, king of clubs is 13, ace of hearts is 14, so we subtract one to make the logic work
-        card = number-1 - suit*13 #again, cards are in the "human" form, so we subtract one from the card number
-        return cards[card]+suits[suit]
+    
+
     def startServer(self):
         @route("/getcards")
         def getcards():
@@ -119,7 +82,7 @@ class App(tk.Tk):
     
     
 myApp = App()
-myApp.mainloop()
+
 
 
 
