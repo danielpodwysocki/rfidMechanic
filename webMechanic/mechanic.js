@@ -34,7 +34,7 @@ function updateCards(playerCount){
 updateCards(playerCount);
 
 function getCards(){
-	//the ip can be hardcoded, because the app is hosted on the rapsberry pi access point
+	//the ip can be hardcoded, because the app is hosted on the rasp pi access point dedicated just to running that app
 	//right now it's localhost for testing purposes
 	fetch("http://127.0.0.1:8080/getcards")
 		.then(resp=>resp.json())
