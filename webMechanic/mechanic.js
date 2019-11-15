@@ -5,14 +5,14 @@ var playerCount=4;
 
 function toNames(card){
 	//returns a string with a human-friendly represantation of the card
-	suits = ['C','H','S','D'];
+	suits = ['&#9827;','&#9829;','&#9824;','&#9830;']; //unicode for clubs, hearts, spades and diamonds (CHaSeD order)
 	values = ['1','2','3','4','5','6','7','8','9','10','J','Q','K'];
 	
 	//card numbers go in CHSD order, so 1 to 13 are ace to king of clubs, 14 is the ace of hearts and so on 
 	suit = Math.ceil(card/13)-1; //-1 for the arr indexes and for the suit*13 to work
 	value = card - suit*13 -1;
 	
-	return suits[suit]+values[value];
+	return values[value]+suits[suit];
 }
 
 function updateCards(playerCount){
@@ -47,6 +47,8 @@ function getCards(){
 
 playerSlider.oninput = function() {
 	playerCount = this.value;
+	playerCounter = document.getElementById('playerCounter');
+	playerCounter.innerHTML = playerCount;
 	updateCards(playerCount);
 }
 getCards();
