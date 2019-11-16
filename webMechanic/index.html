@@ -9,8 +9,27 @@
 	
 	
 	<body>
-		<header>
-		</header>
+		<!--  got this from Rob Frank over at https://codepen.io/trobfrank/pen/YqJRde -->
+		<div id="topNav" class="navigation">
+		  <span id="closebtn" onclick="navToggle()">
+		      <span class="line1"></span>
+		      <span class="line2"></span>
+		      <span class="line3"></span>
+		  </span>
+			<div class="logo">
+			  <img src=""/>
+			</div>
+			
+			<ul class="menulist">
+			  <li><a class="menuitems" href="#">EqualDeal</a></li>		
+			  <li><a class="menuitems" href="#">Hold'em</a></li>				
+			  <li><a class="menuitems" href="#">Single card</a></li>
+			  <li><a class="menuitems" href="#">Settings</a></li>
+			</ul>			
+		</div>
+
+		<div id="main">
+		</div>
 		<div id="equalDeal">
 			<div class="playerSlider">
 				<span>Players: </span> <span id='playerCounter'>4</span>
@@ -22,6 +41,7 @@
 		
 		
 		</div>
-	<script src='mechanic.js'></script>	
+	<script src='mechanic.js'></script>
+	<script src='nav.js'></script>
 	</body>
 </html>

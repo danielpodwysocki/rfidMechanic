@@ -67,13 +67,9 @@ header{
 
 
 
-
-
-
-
-//////////////////////////////////////////////////////
+/*
 styling for the range input made using http://danielstern.ca/range.css/#/
-//////////////////////////////////////////////////////
+*/
 input[type=range] {
   -webkit-appearance: none;
   width: 100%;
@@ -174,3 +170,146 @@ input[type=range]::-webkit-slider-runnable-track {
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   background: rgba(48, 113, 169, 0.78);
+}
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+/*
+	Nav styling
+*/ 
+  
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700,900);
+
+
+.navigation {
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #000040;
+    box-shadow: 0 4px 4px -3px #232323;
+    -moz-box-shadow: 0 4px 4px -3px #232323;
+    -webkit-box-shadow: 0 4px 4px -3px #232323;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+    padding-top: 20px;
+}
+
+.navigation a {
+    text-decoration: none;
+}
+
+.navigation ul {
+    margin-top:30px;
+    text-align:center;
+    list-style:none; 
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+.menulist {
+    width:200px;
+}
+
+
+.logo {
+    text-align:center;
+    margin:0 auto;
+}
+
+.line1, .line2, .line3 {
+  margin-top:10px;
+  background-color:#fff;
+  width:50px;
+  height:6px;
+  display:block;
+  position:relative;
+  opacity:1.0;
+  border-radius:15%;
+  transition: all .3s;
+}
+
+.line1.active {
+  transform: rotate(270deg);
+  opacity:0.0;
+  background-color:yellow;
+  top:10px;
+}
+
+.line2.active {
+  transform: rotate(45deg);
+  background-color:yellow;
+}
+
+.line3.active {
+  transform: rotate(-45deg);
+  background-color:yellow;
+  top:-14px;
+}
+
+.menuitems {
+    padding-top:12px;
+    padding-bottom:12px;
+    text-decoration: none;
+    list-style:none; 
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-size: 4vw;
+    display: inline-block;
+    position:relative;	
+    text-align:center;
+    color: #fff;
+    opacity:0.0;
+    transition: all .5s ease-in-out;
+}
+
+.menuitems:after {
+  content:'';
+  display:block;
+  width: 0;
+  height: 1px;
+  background: #fff;
+  transition: width .2s;
+}
+
+.menuitems:hover::after {
+    width:100%;
+}
+
+#closebtn {
+    height:50px;
+    width:50px;	
+    position: absolute;
+    text-decoration:none;
+    top: 10px;
+    left: 25px;
+    font-size: 36px !important;
+    margin-right: 50px;
+    z-index:100;
+    color:#fff;
+    cursor:pointer;
+    trainsition:background-position .3s;
+}
+
+#main {	
+    transition: margin-top .4s;
+    text-align:center;
+    margin:auto;
+    padding: 16px;
+    font-size:30px;
+}
+  
+  
+  
+  
