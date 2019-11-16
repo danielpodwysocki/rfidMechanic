@@ -30,7 +30,7 @@
 # t.run()
 from Reader import Reader
 import threading
-from bottle import route,run,HTTPResponse,static_file
+from bottle import route,run,HTTPResponse,static_file,post
 from time import sleep
 import json
 
@@ -59,7 +59,7 @@ class App():
     
 
     def startServer(self):
-        @route("/getcards")
+        @route("/get_cards")
         def getcards():
             return HTTPResponse(json.dumps(self.cards))
         
@@ -71,12 +71,21 @@ class App():
         def css():
             return static_file('main.css',root='webMechanic')
         
+        @route("/nav.js")
+        def nav():
+            return static_file('nav.js',root='webMechanic')
+        
         @route("/mechanic.js")
         def mechanic():
             return static_file('mechanic.js',root='webMechanic')
+        
+        @post("/clear_cards")
+        def clearCards():
+            self.clearCards()
+            return HTTPResponse()
             
             
-        run(host='localhost',port=8080)
+        run(host='172.16.1.12',port=8080)
         while True:
             time.sleep(1)
     
