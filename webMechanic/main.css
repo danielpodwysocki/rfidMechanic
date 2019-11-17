@@ -11,12 +11,12 @@ body{
 	
 }
 
-#equalDeal{
+#equalDeal, #texasHoldEm{
 	width: 100vw;
 	padding-top:1vw;
 }
 
-#equalDealGrid{
+#equalDealGrid, #holdEmGrid{
 	display:grid;
 	grid-template-columns:repeat(2,1fr);
 	grid-column-gap:1vw;
@@ -35,7 +35,7 @@ body{
 
 
 
-.player{
+.player, .holdEmPlayer{
 	padding-bottom:2vw;
 	padding-top:2vw;
 	text-align: center;
@@ -44,12 +44,16 @@ body{
 	
 }
 
-.playerSlider{
+.playerSlider, #holdEmBoard{
 	grid-column-start:1;
 	grid-column-end:3;
 	padding: 2vw;
-	padding-bottom:10vw;
+	margin-bottom:10vw;
 
+}
+#holdEmBoard{
+	font-size:8vw;
+	text-align:center;
 }
 
 

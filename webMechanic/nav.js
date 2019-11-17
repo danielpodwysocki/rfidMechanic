@@ -1,3 +1,5 @@
+// got this from Rob Frank over at https://codepen.io/trobfrank/pen/YqJRde 
+
 var nav = document.getElementById("topNav");
 var main = document.getElementById("main");
 var menu = document.getElementsByClassName("menuitems");

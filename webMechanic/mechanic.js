@@ -15,12 +15,47 @@ function toNames(card){
 	return values[value]+suits[suit];
 }
 
+function updateHoldEm(){
+	//a function that updates the cards for texas hold em (both player hands and the board, the reason we scan the board even though it's known
+	// is because we might want to calculate the winning chances for each player)
+	
+	var board = [];
+	if(cards.length>3){ 
+		//the cards will be in their proper places only once the flop has been dealt - that way we don't need to know the amount of players
+		//since it's always (n-3)/2 , n is the amount of cards dealt
+		board = cards.slice(cards.length-3);
+		let playerCount = Math.ceil((cards.length-3)/2);
+		
+		let boardDiv = document.getElementById("holdEmBoard");
+		let cont = document.getElementById("holdEmGrid");
+		
+		cont.innerHTML="";
+		
+		for(i=0;i<playerCount;i++){
+			cont.innerHTML+="<div class='holdEmPlayer'></div>&#13;";
+		}
+		let players = document.getElementsByClassName("holdEmPlayer");
+		
+		let player = 0;
+		
+		for(i=0;i<cards.length-3;i++){// we "deal" the cards into the divs
+			
+			if(player==playerCount) player = 0; //if we already dealt a card for each player, we want to go around one more time
+			players[player].innerHTML+=toNames(cards[i]);
+			player++;
+			
+		}
+		boardDiv.innerHTML="";
+		for(i=0;i<board.length;i++) boardDiv.innerHTML+=toNames(board[i]);
+	}
+}
+
 function updateCards(playerCount){
 	//updates the amount of player divs and puts the translated card names inside of them
 	cont = document.getElementById("equalDealGrid");
 	cont.innerHTML="";
 	for(i=0;i<playerCount;i++){
-		cont.innerHTML+="<div class='player'> </div>";
+		cont.innerHTML+="<div class='player'> </div>&#13;";
 	}
 	players = document.getElementsByClassName("player");
 	p = 0;
@@ -41,6 +76,7 @@ function getCards(){
 		.then(resp => {
 			cards=resp;
 			updateCards(playerCount);
+			updateHoldEm();
 		});
 }
 
