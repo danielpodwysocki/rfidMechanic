@@ -9,7 +9,7 @@
 	
 	
 	<body>
-		<!--  got this from Rob Frank over at https://codepen.io/trobfrank/pen/YqJRde -->
+		<!--  got this nav from Rob Frank over at https://codepen.io/trobfrank/pen/YqJRde -->
 		<div id="topNav" class="navigation">
 		  <span id="closebtn" onclick="navToggle()">
 		      <span class="line1"></span>
@@ -21,15 +21,17 @@
 			</div>
 			
 			<ul class="menulist">
-			  <li><a class="menuitems" href="#">EqualDeal</a></li>		
-			  <li><a class="menuitems" href="#">Hold'em</a></li>				
-			  <li><a class="menuitems" href="#">Single card</a></li>
-			  <li><a class="menuitems" href="#">Settings</a></li>
+			   <!-- For the view toggle to work the anchor's id needs to be show-DIVNAME where DIVNAME is the div that conatins the view -->
+			  <li><a class="menuitems" id="show-equalDeal" href="#">EqualDeal</a></li>		
+			  <li><a class="menuitems" id="show-texasHoldEm" href="#">Hold'em</a></li>				
+		
 			</ul>			
 		</div>
 
 		<div id="main">
 		</div>
+		
+		
 		<div id="equalDeal">
 			<div class="playerSlider">
 				<span>Players: </span> <span id='playerCounter'>4</span> <button id='clearCardsBtn'>Clear cards</button>
@@ -41,7 +43,19 @@
 		
 		
 		</div>
+		
+		<div id="texasHoldEm">
+			<div id="holdEmGrid">
+				<div id="holdEmBoard">
+					xdd
+				</div>
+			</div>
+			
+		</div>
+		
+		
 	<script src='mechanic.js'></script>
 	<script src='nav.js'></script>
+	<script src='switcher.js'></script>
 	</body>
 </html>

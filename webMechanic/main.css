@@ -28,15 +28,12 @@ body{
 	
 }
 
-header{
-	height: 10vw;
-	width:100vw;
-	background:#074A42;
-	border-bottom: 100vw maroon red;
-
-	
-	
+#texasHoldEm{
+	display: none;
 }
+
+
+
 
 .player{
 	padding-bottom:2vw;
@@ -51,7 +48,7 @@ header{
 	grid-column-start:1;
 	grid-column-end:3;
 	padding: 2vw;
-	padding-bottom:3vw;
+	padding-bottom:10vw;
 
 }
 

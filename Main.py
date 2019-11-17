@@ -79,13 +79,17 @@ class App():
         def mechanic():
             return static_file('mechanic.js',root='webMechanic')
         
+        @route("/switcher.js")
+        def switcher():
+            return static_file('switcher.js',root='webMechanic')
+        
         @post("/clear_cards")
         def clearCards():
             self.clearCards()
             return HTTPResponse()
             
             
-        run(host='172.16.1.12',port=8080)
+        run(host='localhost',port=8080)
         while True:
             time.sleep(1)
     
