@@ -1,5 +1,9 @@
+#cool one liner, gives you the path to the script dir, unless the script itself is a symlink
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+
 apt update && apt upgrade -y
-apt install hostapd dnsmasq -y
+apt install git hostapd dnsmasq -y
 systemctl stop dnsmasq
 cat << EOT >>/etc/dhcpcd.conf
 interface wlan0
@@ -30,3 +34,18 @@ rsn_pairwise=CCMP
 ssid=theOracle
 wpa_passphrase=rfidmechanic
 EOT
+
+cd $DIR
+
+pip3 install -r requirements.txt
+
+cd ..
+DIR2=$(pwd)
+
+crontab -l > mycron
+#echo new cron into cron file
+echo "@reboot python3 $DIR2/Main.py" >> mycron
+#install new cron file
+crontab mycron
+rm mycron
+
