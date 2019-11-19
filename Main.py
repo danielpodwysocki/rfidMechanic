@@ -33,18 +33,19 @@ import threading
 from bottle import route,run,HTTPResponse,static_file,post
 from time import sleep
 import json
-
+import sys
 from math import floor
 
 LARGE_FONT = 10
 MEDIUM_FONT = 5
 class App():
-    cards=[]
+    cards=[1,15,32,12,44,52,10]
     reader = Reader()
     
     def __init__(self,*args,**kwargs):
         
-        
+        self.root = sys.path[0]+'/webMechanic'
+        print(self.root)
         
         threading.Thread(target=self.getCards).start()
         threading.Thread(target=self.startServer).start()
@@ -65,23 +66,23 @@ class App():
         
         @route("/")
         def index():
-            return static_file('index.html',root='webMechanic')
+            return static_file('index.html',root=self.root)
         
         @route("/main.css")
         def css():
-            return static_file('main.css',root='webMechanic')
+            return static_file('main.css',root=self.root)
         
         @route("/nav.js")
         def nav():
-            return static_file('nav.js',root='webMechanic')
+            return static_file('nav.js',root=self.root)
         
         @route("/mechanic.js")
         def mechanic():
-            return static_file('mechanic.js',root='webMechanic')
+            return static_file('mechanic.js',root=self.root)
         
         @route("/switcher.js")
         def switcher():
-            return static_file('switcher.js',root='webMechanic')
+            return static_file('switcher.js',root=self.root)
         
         @post("/clear_cards")
         def clearCards():
@@ -89,7 +90,7 @@ class App():
             return HTTPResponse()
             
             
-        run(host='localhost',port=8080)
+        run(host='0.0.0.0',port=8080)
         while True:
             time.sleep(1)
     
