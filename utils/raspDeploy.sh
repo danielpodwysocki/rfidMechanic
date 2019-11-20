@@ -35,7 +35,7 @@ ssid=theOracle
 wpa_passphrase=rfidmechanic
 EOT
 
-echo 'DAEMON_CONF="/etc/hostapd/hostapd"' >> /etc/default/hostapd.conf
+echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 systemctl unmask hostapd
 systemctl enable hostapd
 systemctl start hostapd
