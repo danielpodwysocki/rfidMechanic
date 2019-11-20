@@ -35,6 +35,11 @@ ssid=theOracle
 wpa_passphrase=rfidmechanic
 EOT
 
+echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/hostapd/hostapd.conf
+systemctl unmask hostapd
+systemctl enable hostapd
+systemctl start hostapd
+
 cd $DIR
 
 pip3 install -r requirements.txt
