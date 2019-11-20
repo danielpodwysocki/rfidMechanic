@@ -40,6 +40,9 @@ systemctl unmask hostapd
 systemctl enable hostapd
 systemctl start hostapd
 
+systemctl enable dnsmasq
+systemctl start dnsmasq
+
 cd $DIR
 
 pip3 install -r requirements.txt
