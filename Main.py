@@ -40,16 +40,21 @@ LARGE_FONT = 10
 MEDIUM_FONT = 5
 class App():
     cards=[1,15,32,12,44,52,10]
-    reader = Reader()
     
     def __init__(self,*args,**kwargs):
+
+        self.readerEnabled = False #tells us whether or not the reader is running
+        self.root = sys.path[0]+'/webMechanic' #web server root
         
-        self.root = sys.path[0]+'/webMechanic'
-        print(self.root)
-        
-        threading.Thread(target=self.getCards).start()
         threading.Thread(target=self.startServer).start()
-        
+    
+    def startReader(self):
+        self.enabled = True
+        self.readerEnabled = Reader()
+
+        threading.Thread(target=self.getCards).start()
+
+    
     def getCards(self):
         self.cards.append(self.reader.lastRead())
         print(self.cards)
@@ -66,7 +71,10 @@ class App():
         
         @route("/")
         def index():
-            return static_file('index.html',root=self.root)
+            if self.readerEnabled:
+                return static_file('index.html',root=self.root)
+            else:
+                return static_file('startup.html',root=self.root)
         
         @route("/main.css")
         def css():
@@ -84,10 +92,12 @@ class App():
         def switcher():
             return static_file('switcher.js',root=self.root)
         
+        
         @post("/clear_cards")
         def clearCards():
             self.clearCards()
             return HTTPResponse()
+        
             
             
         run(host='0.0.0.0',port=8080)
