@@ -30,7 +30,7 @@
 # t.run()
 from Reader import Reader
 import threading
-from bottle import route,run,HTTPResponse,static_file,post
+from bottle import route,run,HTTPResponse,static_file,post, redirect, request
 from time import sleep
 import json
 import sys
@@ -39,19 +39,22 @@ from math import floor
 LARGE_FONT = 10
 MEDIUM_FONT = 5
 class App():
-    cards=[1,15,32,12,44,52,10]
+    cards=[]
     
     def __init__(self,*args,**kwargs):
 
         self.readerEnabled = False #tells us whether or not the reader is running
         self.root = sys.path[0]+'/webMechanic' #web server root
+        self.reader=None
+        
         
         threading.Thread(target=self.startServer).start()
     
-    def startReader(self):
-        self.enabled = True
-        self.readerEnabled = Reader()
-
+    def startReader(self,name): #pass reader dictionary name
+        readers = {'arduino': Reader}
+        self.readerEnabled = True
+        
+        self.reader = readers[name]()
         threading.Thread(target=self.getCards).start()
 
     
@@ -97,8 +100,12 @@ class App():
         def clearCards():
             self.clearCards()
             return HTTPResponse()
-        
-            
+        @post("/start_reader")
+        def start_reader():
+            data = request.body.read()
+            reader = request.forms.get("reader")
+            self.startReader(reader)
+            redirect('/')
             
         run(host='0.0.0.0',port=8080)
         while True:
