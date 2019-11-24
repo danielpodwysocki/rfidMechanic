@@ -71,7 +71,7 @@ updateCards(playerCount);
 function getCards(){
 	//the ip can be hardcoded, because the app is hosted on the rasp pi access point dedicated just to running that app
 	//right now it's localhost for testing purposes
-	fetch("http://127.0.0.1:8080/get_cards")
+	fetch("http://172.16.1.12:8080/get_cards")
 		.then(resp=>resp.json())
 		.then(resp => {
 			cards=resp;
