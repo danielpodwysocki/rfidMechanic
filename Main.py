@@ -95,7 +95,10 @@ class App():
         def switcher():
             return static_file('switcher.js',root=self.root)
         
-        
+        @route("/probability.js")
+        def probability():
+            return static_file('probability.js', root=self.root)
+            
         @post("/clear_cards")
         def clearCards():
             self.clearCards()
