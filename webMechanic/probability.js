@@ -21,6 +21,15 @@ function count(hand,value){
 	  return count;
 }
 
+/*
+ * 
+ * Functions like isPair check what kind of hand you passed them
+ * They return false if it's not the right type of a hand
+ * If the hand matches it returns a value that helps to determine how good it is 
+ * (for pairs it will return the value of the cards that make up a pair)
+ * 
+ */
+
 function isFlush(hand){
 	  //checks if all cards in the hand are the same suit
 	  let suit = hand[0].suit;
@@ -38,7 +47,7 @@ function isPair(hand){
 
 	for(let i=0;i<hand.length;i++){
 		if(count(hand,hand[i].value)==2)
-			return true;
+			return hand[i].value;
 	}
 	return false;
 }
@@ -49,7 +58,7 @@ function isTrip(hand){
 	
 	for(let i=0;i<hand.length;i++){
 		if(count(hand,hand[i].value)==3)
-			return true;
+			return hand[i].value;
 	}
 	return false;
 }
@@ -58,7 +67,7 @@ function isQuad(hand){
 	//checks if a hand has a four of a kind 
 	for(let i=0;i<hand.length;i++){
 		if(count(hand,hand[i].value)==4)
-			return true;
+			return hand[i].value;
 	}
 	return false;
 	
@@ -66,7 +75,13 @@ function isQuad(hand){
 
 function isHouse(hand){
 	//checks if the hand is a full house
-	if(isPair(hand) && isTrip(hand)) return true;
+	let a = isPair(hand);
+	let b = isTrip(hand);
+	if(a && b){
+		if(a>b) return a;
+		else return b;
+		
+	}
 	else return false;
 }
 
@@ -79,13 +94,14 @@ function isStraight(hand){
 	for(let i;i<hand.length-1;i++){ //checking if values are increasing by 1 each card, otherwise it's not a straight
 		if(hand[i].value+1 != hand[i+1].value) return false;
 	}
-	return true;
+	return hand[hand.length-1];
 	
 	
 }
 
 function isStraightFlush(hand){
-	if(isStraight(hand) && isFlush(hand)) return true;
+	let a = isStraight(hand);
+	if(a && isFlush(hand)) return a;
 	else return false;
 }
 
@@ -96,7 +112,10 @@ function isTwoPair(hand){
 		if(count(hand,hand[i].value)==2 && !pairs.includes(hand[i].value))
 			pairs.push(hand[i].value)
 	}
-	if(pairs.length==2) return true;
+	if(pairs.length==2){
+		if(pairs[0]>pairs[1]) return pairs[0];
+		else return pairs[1];
+	}
 	else return false;
 }
 
