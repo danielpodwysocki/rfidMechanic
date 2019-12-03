@@ -1,6 +1,7 @@
-class Card{
+/*jshint esversion: 6 */
+class Card {
 	constructor(card){
-		//constructor turns 'raw' card value into value (ace, 2,3...) and suit
+    //constructor turns 'raw' card value into value (ace, 2,3...) and suit
 		//card numbers go in CHSD order, so 1 to 13 are ace to king of clubs, 14 is the ace of hearts and so on
 
 		this.suit = Math.ceil(card/13)-1; //-1 for the arr indexes and for the suit*13 to work
@@ -160,8 +161,9 @@ function rateHand(hand){
 
 	//going from high to low to avoid giving too low a rating (a straight flush is also a straight, but it should be given a higher number)
 	let rateFuncs = [isRoyalFlush, isStraightFlush, isQuad, isHouse, isFlush, isStraight, isTrip, isTwoPair, isPair];
-	for(let i=0;i<rateFuncs.length){
-		if(let r = rateFuncs[i](hand)){
+	for(let i=0;i<rateFuncs.length;i++){
+		let r = rateFuncs[i](hand)
+		if(r){
 			//length -i *14, so a high card value (up to 13 for the king) doesn't override a hand being better (so that a pair of kings isn't better than trip twos
 			//then we add the value returned by a func from rateFuncs array, which is a float (higher means better hand)
 			return (rateFuncs.length-i)*14+r;
@@ -171,7 +173,7 @@ function rateHand(hand){
 }
 
 
-fucntion bestHand(hands){
+function bestHand(hands){
 	//returns index of best hand out of an array of hands (a hand is an array of card objects) or -1 if it's a tie
 	let ratings = []; 	//an array of hand ratings, indexes matching their counterparts in hands arr
 	for(let i=0;i<hands.length;i++) ratings.push(rateHand(hands[i]));
