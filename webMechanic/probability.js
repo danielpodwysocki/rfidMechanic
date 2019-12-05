@@ -45,7 +45,7 @@ function isFlush(hand){
 	  for(let i=1;i<hand.length;i++){
 	    if(hand[i].suit!=suit) return false;
 	  }
-	  return highCard(hand);
+	  return highCard(hand).value;
 	}
 
 
@@ -77,8 +77,7 @@ function isTrip(hand){
 			let filtered = hand.filter(function(value, index, arr){
 	    return value != hand[i];
 			});
-
-			return hand[i].value + highCard(filtered)/10;
+			return hand[i].value + highCard(filtered).value/10;
 		}
 	}
 	return false;
@@ -112,6 +111,7 @@ function isHouse(hand){
 }
 
 function isStraight(hand){
+  if(hand.length<5) return false;
 	hand.sort(function(a,b){
 		return a.value-b.value;
 	});
@@ -120,7 +120,7 @@ function isStraight(hand){
 	for(let i;i<hand.length-1;i++){ //checking if values are increasing by 1 each card, otherwise it's not a straight
 		if(hand[i].value+1 != hand[i+1].value) return false;
 	}
-	return hand[hand.length-1];
+	return hand[hand.length-1].value;
 
 
 }
@@ -150,7 +150,7 @@ function isRoyalFlush(hand){
 		return a.value-b.value;
 	});
 	//if the hand is a straight flush that has both an ace and a king it's got to be a royal flush
-	if(isStraightFlush(hand) && hand[0].value==1 && hand[hand.length-1].value==13) return true;
+	if(isStraightFlush(hand) && hand[0].value==1 && hand[hand.length-1].value==13) return 1;
 	else return false;
 }
 
@@ -166,23 +166,35 @@ function rateHand(hand){
 		if(r){
 			//length -i *14, so a high card value (up to 13 for the king) doesn't override a hand being better (so that a pair of kings isn't better than trip twos
 			//then we add the value returned by a func from rateFuncs array, which is a float (higher means better hand)
-			return (rateFuncs.length-i)*14+r;
+			console.log(i)
+      return (rateFuncs.length-i)*14+r;
 		}
 	}
+  return 0;
 
+}
+
+function getAllIndexes(arr, val) {
+    var indexes = [], i = -1;
+    while ((i = arr.indexOf(val, i+1)) != -1){
+        indexes.push(i);
+    }
+    return indexes;
+}
+
+function arrayAllMaxIndexes(array){
+    return getAllIndexes(array, Math.max.apply(null, array));
 }
 
 
 function bestHand(hands){
-	//returns index of best hand out of an array of hands (a hand is an array of card objects) or -1 if it's a tie
+	//returns index of best hand out of an array of hands (a hand is an array of card objects) or an array if hands are tied
 	let ratings = []; 	//an array of hand ratings, indexes matching their counterparts in hands arr
 	for(let i=0;i<hands.length;i++) ratings.push(rateHand(hands[i]));
-	ratings.sort(function(a,b){
-		return a-b;
-	});
-	//if there's no tie, return hightest rating, three way-tie is so improbable that we're going to discard such a possibility for now
-	if(ratings[ratings.length-1]!=ratings[ratings.length-2]) return ratings[ratings.length-1];
-	else return -1;
+		console.log(ratings);
+	//return index of the highest rated hands including ties 
+	indexes = arrayAllMaxIndexes(ratings);
+	return indexes; 
 }
 
 function toHands(cardsRaw, playerCount){
@@ -195,7 +207,7 @@ function toHands(cardsRaw, playerCount){
 	let player = 0;
 	for(let i=0;i<cards.length;i++){
 		if(player==playerCount) player = 0;
-		hands[player].append(cards[i]);
+		hands[player].push(cards[i]);
 		player++;
 	}
 	return hands;
