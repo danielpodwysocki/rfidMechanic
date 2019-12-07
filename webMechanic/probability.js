@@ -292,6 +292,8 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 		}
 			
 	}
-	return winCount;
-	
+	winProbs = []; //array of win probabilities
+	for(let i=0;i<winCount.length;i++) winProbs.push(winCount[i]/sample);
+	return winProbs;
+
 }
