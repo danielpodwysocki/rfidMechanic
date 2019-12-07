@@ -212,3 +212,86 @@ function toHands(cardsRaw, playerCount){
 	}
 	return hands;
 }
+
+function holdEmProbability(cards, sample){ //we pass cards and amount of hands to simulate (sample variable) and we get an array of probabilities of winning for each player
+	//burn cards aren't yet implemented
+
+	let deck = []; //simulates a deck, that's where we'll "deal" cards from
+	let playerCount = cards.length/2; //amount of players in a hold em game
+	let winCount = []; //array counting each player's amount of wins in the simulated games (index 0 represents player 1 and so on)
+	for(let i=0;i<playerCount;i++) winCount.push(0); //no hands have been simulated yet, so the amount of wins is 0
+	for(let i=1;i<=52;i++)deck.push(i); //fill up the deck with raw card values
+
+	//filter out the cards that are in cards array
+	deck = deck.filter(function(value,index,arr){	
+		return !cards.includes(value);
+	});
+
+	//simulate as many hands as the sample size dicatates
+	for(let i=0;i<sample;i++){
+		
+		let boardRaw = []; //this array is the board for this deal (with raw card values)
+		let deckTemp = deck;
+		let playerHands = []; //this array contains one nested arr for each player. In the nested arr we keep all the possible hands for the given board, in order
+		let bestPlayerHands = []; //this arr contains each players optimal hand, indexes match player numbers
+		// to pick the best one and then check it against other players' best hands 
+		
+		for(let j=0;j<playerCount;j++) playerHands.push([]); //put the empty arrays into playerHands
+
+		for(let j=0;j<5;j++){
+			let index = Math.floor(Math.random()*deckTemp.length); //pick an index of a random element from the tempDeck
+			boardRaw.push(deckTemp[index]);
+			deckTemp.splice(index,1); //remove the element from deckTemp, so it doesn't repeat
+		}
+		let board = []; //this is the board array with card objects instead of raw values
+
+		for(let j=0;j<5;j++){
+			board.push(new Card(boardRaw[j]));
+		}
+		
+		for(let j=0;j<playerCount;j++){ //loop through all the players
+			playerHands[j].push(board); //a case in which the board is the player hand
+
+			//this loop deals with all the cases of the player using both his cards and 3 from the board 
+			for(let k=0;k<3;k++){ //iterate through all the possibilities of card 1
+				for(let l=k+1;l<4;l++){ //iterate through all the possibilities of card 2
+					for(let m=l+1;m<5;m++){ //iterate through all possibilities of card 3
+						let hand = [new Card(cards[j]),new Card(cards[j+playerCount])]; //two cards that have been dealt to the player
+						hand.push(board[k]);
+						hand.push(board[l]);
+						hand.push(board[m]);
+						playerHands[j].push(hand);
+					}
+				}
+			}
+			
+			//this loop deals with all the cases of the player using one card from his hand and 4 from the board
+			for(let k=0;k<5;k++){ //here we iterate through the index of the card from the board that we won't use
+				for(let l=0;l<2;l++){ //iterating through players cards
+					let hand = board;
+					hand.splice(k,1); //remove one of the board cards
+					hand.push(new Card(cards[j+playerCount*l])); //append one of the player's cards to the arr
+					playerHands[j].push(hand);
+				}
+				
+			}
+		}
+		//back to the loop iterating through the sample size
+		for(let j=0;j<playerCount;j++){ //get each player's optimal hand and put it into bestPlayerHands arr 
+			//bestPlayerHands.push(playerHands[j][bestHand(playerHands[j])[0]]); //broken down into multiple lines for clarity	
+			let index = bestHand(playerHands[j]); //get the index of this player's best hand
+			bestPlayerHands.push(playerHands[j][index]); //push it into bestPlayerHands
+			
+		}
+
+		//the showdown!
+		let winner = bestHand(bestPlayerHands);
+		//draws are considered wins for now
+		for(let j=0;j<winner.length;j++){
+			winCount[winner[j]]++;
+		}
+			
+	}
+	return winCount;
+	
+}
