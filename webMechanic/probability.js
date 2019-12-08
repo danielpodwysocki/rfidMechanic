@@ -188,7 +188,7 @@ function arrayAllMaxIndexes(array){
 
 
 function bestHand(hands){
-	//returns index of best hand out of an array of hands (a hand is an array of card objects) or an array if hands are tied
+	//returns array of the best hand indexes (it returns multiple indexes if hands are tiedvv)
 	let ratings = []; 	//an array of hand ratings, indexes matching their counterparts in hands arr
 	for(let i=0;i<hands.length;i++) ratings.push(rateHand(hands[i]));
 		console.log(ratings);
@@ -279,8 +279,8 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 		//back to the loop iterating through the sample size
 		for(let j=0;j<playerCount;j++){ //get each player's optimal hand and put it into bestPlayerHands arr 
 			//bestPlayerHands.push(playerHands[j][bestHand(playerHands[j])[0]]); //broken down into multiple lines for clarity	
-			let index = bestHand(playerHands[j]); //get the index of this player's best hand
-			bestPlayerHands.push(playerHands[j][index]); //push it into bestPlayerHands
+			let index = bestHand(playerHands[j]); //get the arr of indexes of this player's best hands
+			bestPlayerHands.push(playerHands[j][index[0]]); //push it into bestPlayerHands
 			
 		}
 
@@ -293,7 +293,11 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 			
 	}
 	winProbs = []; //array of win probabilities
-	for(let i=0;i<winCount.length;i++) winProbs.push(winCount[i]/sample);
+	let winSum = 0; //this is to correct the probs for the draws, otherwise sum of probs will be >1
+
+	for(let i=0;i<winCount.length;i++) winSum+=winCount[i];
+	for(let i=0;i<winCount.length;i++) winProbs.push(winCount[i]/winSum);
+
 	return winProbs;
 
 }
