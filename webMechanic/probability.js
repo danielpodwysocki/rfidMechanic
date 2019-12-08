@@ -185,7 +185,7 @@ function arrayAllMaxIndexes(array){
     return getAllIndexes(array, Math.max.apply(null, array));
 }
 
-
+//TO_FIX: it returned a "nothing" hand as on par with a pair of aces
 function bestHand(hands){
 	//returns array of the best hand indexes (it returns multiple indexes if hands are tiedvv)
 	let ratings = []; 	//an array of hand ratings, indexes matching their counterparts in hands arr
@@ -229,7 +229,7 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 	for(let i=0;i<sample;i++){
 		let boardCards = [];
 		let boardRaw = []; //this array is the board for this deal (with raw card values)
-		let deckTemp = deck;
+		let deckTemp = deck.map((x)=>x);
 		let playerHands = []; //this array contains one nested arr for each player. In the nested arr we keep all the possible hands for the given board, in order
 		let bestPlayerHands = []; //this arr contains each players optimal hand, indexes match player numbers
 		// to pick the best one and then check it against other players' best hands 
@@ -242,7 +242,6 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 			deckTemp.splice(index,1); //remove the element from deckTemp, so it doesn't repeat
 		}
 		 //this is the board array with card objects instead of raw values
-		test
 		for(let j=0;j<5;j++){
 			boardCards.push(new Card(boardRaw[j]));
 		}
