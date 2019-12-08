@@ -166,7 +166,6 @@ function rateHand(hand){
 		if(r){
 			//length -i *14, so a high card value (up to 13 for the king) doesn't override a hand being better (so that a pair of kings isn't better than trip twos
 			//then we add the value returned by a func from rateFuncs array, which is a float (higher means better hand)
-			console.log(i)
       return (rateFuncs.length-i)*14+r;
 		}
 	}
@@ -191,7 +190,6 @@ function bestHand(hands){
 	//returns array of the best hand indexes (it returns multiple indexes if hands are tiedvv)
 	let ratings = []; 	//an array of hand ratings, indexes matching their counterparts in hands arr
 	for(let i=0;i<hands.length;i++) ratings.push(rateHand(hands[i]));
-		console.log(ratings);
 	//return index of the highest rated hands including ties 
 	indexes = arrayAllMaxIndexes(ratings);
 	return indexes; 
@@ -229,7 +227,7 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 
 	//simulate as many hands as the sample size dicatates
 	for(let i=0;i<sample;i++){
-		
+		let boardCards = [];
 		let boardRaw = []; //this array is the board for this deal (with raw card values)
 		let deckTemp = deck;
 		let playerHands = []; //this array contains one nested arr for each player. In the nested arr we keep all the possible hands for the given board, in order
@@ -243,23 +241,23 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 			boardRaw.push(deckTemp[index]);
 			deckTemp.splice(index,1); //remove the element from deckTemp, so it doesn't repeat
 		}
-		let board = []; //this is the board array with card objects instead of raw values
-
+		 //this is the board array with card objects instead of raw values
+		test
 		for(let j=0;j<5;j++){
-			board.push(new Card(boardRaw[j]));
+			boardCards.push(new Card(boardRaw[j]));
 		}
 		
 		for(let j=0;j<playerCount;j++){ //loop through all the players
-			playerHands[j].push(board); //a case in which the board is the player hand
+			playerHands[j].push(boardCards); //a case in which the board is the player hand
 
 			//this loop deals with all the cases of the player using both his cards and 3 from the board 
 			for(let k=0;k<3;k++){ //iterate through all the possibilities of card 1
 				for(let l=k+1;l<4;l++){ //iterate through all the possibilities of card 2
 					for(let m=l+1;m<5;m++){ //iterate through all possibilities of card 3
 						let hand = [new Card(cards[j]),new Card(cards[j+playerCount])]; //two cards that have been dealt to the player
-						hand.push(board[k]);
-						hand.push(board[l]);
-						hand.push(board[m]);
+						hand.push(boardCards[k]);
+						hand.push(boardCards[l]);
+						hand.push(boardCards[m]);
 						playerHands[j].push(hand);
 					}
 				}
@@ -268,7 +266,7 @@ function holdEmProbability(cards, sample){ //we pass cards and amount of hands t
 			//this loop deals with all the cases of the player using one card from his hand and 4 from the board
 			for(let k=0;k<5;k++){ //here we iterate through the index of the card from the board that we won't use
 				for(let l=0;l<2;l++){ //iterating through players cards
-					let hand = board;
+					let hand = boardCards.map((x)=>x);
 					hand.splice(k,1); //remove one of the board cards
 					hand.push(new Card(cards[j+playerCount*l])); //append one of the player's cards to the arr
 					playerHands[j].push(hand);
