@@ -117,7 +117,7 @@ function isStraight(hand){
 	});
 	let i=0; //by default we want to check all cards' values, unless there's a king and an ace
 	if(hand[0].value==1 && hand[hand.length-1].value==13) i=1; //check if there's a possibility for a straight with an ace and a king
-	for(let i;i<hand.length-1;i++){ //checking if values are increasing by 1 each card, otherwise it's not a straight
+	for(i;i<hand.length-1;i++){ //checking if values are increasing by 1 each card, otherwise it's not a straight
 		if(hand[i].value+1 != hand[i+1].value) return false;
 	}
 	return hand[hand.length-1].value;
@@ -185,7 +185,6 @@ function arrayAllMaxIndexes(array){
     return getAllIndexes(array, Math.max.apply(null, array));
 }
 
-//TO_FIX: it returned a "nothing" hand as on par with a pair of aces
 function bestHand(hands){
 	//returns array of the best hand indexes (it returns multiple indexes if hands are tiedvv)
 	let ratings = []; 	//an array of hand ratings, indexes matching their counterparts in hands arr
