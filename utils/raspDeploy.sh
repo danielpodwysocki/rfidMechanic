@@ -21,18 +21,19 @@ EOT
 
 cat << EOT > /etc/hostapd/hostapd.conf
 interface=wlan0
-hw_mode=g
+hw_mode=g #refers to 802.11 standard
 channel=7
-wmm_enabled=0
-macaddr_acl=0
-auth_algs=1
+wmm_enabled=0 #disables QOS
+macaddr_acl=0 #mac addr filtering
+auth_algs=1 # auth algs, 1 for open auth algo with WPA
 ignore_broadcast_ssid=0
-wpa=2
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
-ssid=theOracle
-wpa_passphrase=rfidmechanic
+wpa=2 #enables wpa2
+wpa_key_mgmt=WPA-PSK #key management algorithms 
+wpa_pairwise=TKIP #wpa encryption standard
+rsn_pairwise=CCMP #wpa2 encryption
+ssid=theOracle #ssid
+wpa_passphrase=rfidmechanic 
+# https://wireless.wiki.kernel.org/en/users/documentation/hostapd
 EOT
 
 echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
@@ -56,4 +57,3 @@ echo "@reboot python3 $DIR2/Main.py" >> mycron
 #install new cron file
 crontab mycron
 rm mycron
-
