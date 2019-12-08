@@ -27,7 +27,8 @@ function highCard(arr){
 	arr.sort(function(a,b){
 		return a.value-b.value;
 	});
-	return arr[arr.length-1];
+	if(arr[0].value==1) return arr[0];
+	else return arr[arr.length-1];
 }
 
 /*
@@ -59,8 +60,8 @@ function isPair(hand){
 			let filtered = hand.filter(function(value, index, arr){
 	    return value != hand[i];
 			});
-
-			return hand[i].value + highCard(filtered).value/10;
+			if(hand[i.value]==0) return 13.5 + highCard(filtered).value/10;
+			else return hand[i].value + highCard(filtered).value/10;
 		}
 
 	}
@@ -77,7 +78,8 @@ function isTrip(hand){
 			let filtered = hand.filter(function(value, index, arr){
 	    return value != hand[i];
 			});
-			return hand[i].value + highCard(filtered).value/10;
+			if(hand[i.value]==0) return 13.5 + highCard(filtered).value/10;
+			else return hand[i].value + highCard(filtered).value/10;
 		}
 	}
 	return false;
@@ -90,7 +92,7 @@ function isQuad(hand){
 			let filtered = hand.filter(function(value, index, arr){
 	    return value != hand[i];
 			});
-
+			if(hand[i.value]==0) return 13.5 + highCard(filtered).value/10;
 			return hand[i].value + highCard(filtered)/10;
 		}
 	}
@@ -135,8 +137,10 @@ function isTwoPair(hand){
 	//checks if the hand has 2 pairs of same values
 	let pairs = [];
 	for(let i=0;i<hand.length;i++){
-		if(count(hand,hand[i].value)==2 && !pairs.includes(hand[i].value))
-			pairs.push(hand[i].value)
+		if(count(hand,hand[i].value)==2 && !pairs.includes(hand[i].value)){
+			if(hand[i].value==1) pairs.push(13.5);
+			else pairs.push(hand[i].value);
+		}
 	}
 	if(pairs.length==2){
 		if(pairs[0]>pairs[1]) return pairs[0]+pairs[1]/10;
@@ -164,9 +168,11 @@ function rateHand(hand){
 	for(let i=0;i<rateFuncs.length;i++){
 		let r = rateFuncs[i](hand)
 		if(r){
-			//length -i *14, so a high card value (up to 13 for the king) doesn't override a hand being better (so that a pair of kings isn't better than trip twos
+			//length -i *15, so a high card value (up to 13 for the king and 13.5 for the ace) doesn't override a hand being better (so that a pair of kings isn't better than trip twos
 			//then we add the value returned by a func from rateFuncs array, which is a float (higher means better hand)
-      return (rateFuncs.length-i)*14+r;
+			
+			if(r==1) return (rateFuncs.length-i)*15+13.5; //for aces
+			else return (rateFuncs.length-i)*15+r;
 		}
 	}
   return 0;
