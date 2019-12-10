@@ -27,14 +27,14 @@ function updateHoldEm(){
 		
 		cont.innerHTML="";
 		
-		for(i=0;i<playerCount;i++){
+		for(let i=0;i<playerCount;i++){
 			cont.innerHTML+="<div class='holdEmPlayer'>&#13<div class='holdEmProb'></div></div>&#13;"; //&#13 is CR
 		}
 		let players = document.getElementsByClassName("holdEmPlayer");
 		
 		let player = 0;
 		
-		for(i=0;i<cards.length;i++){// we "deal" the cards into the divs
+		for(let i=0;i<cards.length;i++){// we "deal" the cards into the divs
 			
 			if(player==playerCount) player = 0; //if we already dealt a card for each player, we want to go around one more time
 			players[player].innerHTML+=toNames(cards[i]);
@@ -44,11 +44,21 @@ function updateHoldEm(){
 	}
 }
 
+function updateHoldEmProb(cards){
+	probs = holdEmProbability(cards,1000); //the second argument is the sample size - how many times do we want to 
+	playerCount = cards.length/2;
+	probsDivs = document.getElementsByClassName("holdEmProb");
+	
+
+	for(let i=0;i<playerCount;i++) probsDivs[i].innerHTML = probs[i].toFixed(2);
+
+}
+
 function updateCards(playerCount){
 	//updates the amount of player divs and puts the translated card names inside of them
 	cont = document.getElementById("equalDealGrid");
 	cont.innerHTML="";
-	for(i=0;i<playerCount;i++){
+	for(let i=0;i<playerCount;i++){
 		cont.innerHTML+="<div class='player'> </div>&#13;";
 	}
 	players = document.getElementsByClassName("player");
@@ -68,9 +78,13 @@ function getCards(){
 	fetch("http://192.168.0.1:8080/get_cards")
 		.then(resp=>resp.json())
 		.then(resp => {
-			cards=resp;
-			updateCards(playerCount);
-			updateHoldEm();
+			if(resp.length!=cards.length){  //the sample size for the simulation will be configurable later, so we don't want to repeat it,
+										    // since it might last long enough to be annoying 
+				cards=resp;
+				updateCards(playerCount);
+				updateHoldEm();
+				if(cards.length%2==0 && cards.length!=2) updateHoldEmProb(cards);
+			}
 		});
 }
 
