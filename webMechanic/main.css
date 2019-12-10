@@ -24,7 +24,6 @@ body{
 	width: 90vw;
 	float:left;
 	margin-left:5vw;
-	backround:red;
 	
 }
 
@@ -51,10 +50,7 @@ body{
 	margin-bottom:10vw;
 
 }
-#holdEmBoard{
-	font-size:8vw;
-	text-align:center;
-}
+
 
 
 .playerSlider input{

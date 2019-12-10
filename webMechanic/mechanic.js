@@ -21,32 +21,26 @@ function updateHoldEm(){
 	
 	var board = [];
 	if(cards.length>3){ 
-		//the cards will be in their proper places only once the flop has been dealt - that way we don't need to know the amount of players
-		//since it's always (n-3)/2 , n is the amount of cards dealt
-		board = cards.slice(cards.length-3);
-		let playerCount = Math.ceil((cards.length-3)/2);
+		let playerCount = Math.ceil(cards.length/2);
 		
-		let boardDiv = document.getElementById("holdEmBoard");
 		let cont = document.getElementById("holdEmGrid");
 		
 		cont.innerHTML="";
 		
 		for(i=0;i<playerCount;i++){
-			cont.innerHTML+="<div class='holdEmPlayer'></div>&#13;";
+			cont.innerHTML+="<div class='holdEmPlayer'>&#13<div class='holdEmProb'></div></div>&#13;"; //&#13 is CR
 		}
 		let players = document.getElementsByClassName("holdEmPlayer");
 		
 		let player = 0;
 		
-		for(i=0;i<cards.length-3;i++){// we "deal" the cards into the divs
+		for(i=0;i<cards.length;i++){// we "deal" the cards into the divs
 			
 			if(player==playerCount) player = 0; //if we already dealt a card for each player, we want to go around one more time
 			players[player].innerHTML+=toNames(cards[i]);
 			player++;
 			
 		}
-		boardDiv.innerHTML="";
-		for(i=0;i<board.length;i++) boardDiv.innerHTML+=toNames(board[i]);
 	}
 }
 
@@ -71,7 +65,7 @@ updateCards(playerCount);
 function getCards(){
 	//the ip can be hardcoded, because the app is hosted on the rasp pi access point dedicated just to running that app
 	//right now it's localhost for testing purposes
-	fetch("http://172.16.1.12:8080/get_cards")
+	fetch("http://192.168.0.1:8080/get_cards")
 		.then(resp=>resp.json())
 		.then(resp => {
 			cards=resp;
