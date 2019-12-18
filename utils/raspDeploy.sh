@@ -3,7 +3,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
 apt update && apt upgrade -y
-apt install git hostapd dnsmasq -y
+apt install python3 python3-pip git hostapd dnsmasq -y
 systemctl stop dnsmasq
 cat << EOT >>/etc/dhcpcd.conf
 interface wlan0
