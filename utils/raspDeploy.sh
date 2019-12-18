@@ -5,10 +5,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 apt update && apt upgrade -y
 apt install python3 python3-pip git hostapd dnsmasq -y
 systemctl stop dnsmasq
-cat << EOT >>/etc/dhcpcd.conf
-interface wlan0
-        static ip_address=192.168.0.1/24
-        nohook wpa_supplicant
+cat << EOT >>/etc/network/interfaces
+auto wlan0
+        iface wlan0 inet static
+        address 192.168.0.1
+        netmask 255.255.255.0
 EOT
 
 systemctl restart dhcpcd
