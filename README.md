@@ -14,8 +14,11 @@ Minimum requirements for running the app:
   - MiFare RFID-RC522 reader/writer module for arduino connected same as in the example in arduino/schematic.png
   
   - A computer with python3 and pyserial (for Windows you need to manually change the serial port, it's not being auto-detected yet).
-  
-Connect the arduino using the USB cable to your device.
+
+Arduino usage:
+If you're using NTAG213 use the theAppRead.ino program found in arduino/ntag213 (not the ones found in arduino dir!). Same goes for writing, set the value to be written by changing the buffer[0] (it's marked with a comment). I reccommend watching arduino IDE's serial monitor while writing a tag - the proccess can sometimes fail if the tag is placed incorrectly. Currently I'm not making enough cards to justify making the process easier. I'll add a similar dir with files for NTAG215 soon. 
+
+Connect the arduino using the USB cable to your device before launching Main.py .
 
 You need to change the ip address in webMechanic/mechanic.js, otherwise you'll get an error. 
 
