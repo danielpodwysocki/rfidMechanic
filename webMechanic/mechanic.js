@@ -45,13 +45,18 @@ function updateHoldEm(){
 }
 
 function updateHoldEmProb(cards){
-	probs = holdEmProbability(cards,1000); //the second argument is the sample size - how many times do we want to 
-	playerCount = cards.length/2;
-	probsDivs = document.getElementsByClassName("holdEmProb");
+	let probs = holdEmProbability(cards,1000); //the second argument is the sample size - how many times do we want to 
+	let playerCount = cards.length/2;
+	let probsDivs = document.getElementsByClassName("holdEmProb");
 	
 
 	for(let i=0;i<playerCount;i++) probsDivs[i].innerHTML = probs[i].toFixed(2);
 
+}
+
+function updateSingleCard(){
+	let div = document.getElementById("singleCard-card");
+	div.innerHTML = toNames(cards[cards.length-1]);
 }
 
 function updateCards(playerCount){
@@ -83,6 +88,7 @@ function getCards(){
 				cards=resp;
 				updateCards(playerCount);
 				updateHoldEm();
+				updateSingleCard();
 				if(cards.length%2==0 && cards.length!=2) updateHoldEmProb(cards);
 			}
 		});
