@@ -8,6 +8,20 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.=
 
 MFRC522::MIFARE_Key key;
 
+
+    byte dataBlock[]    = {
+        0x47, 0x01, 0x03, 0x04, //  1,  2,   3,  4,
+        0x05, 0x06, 0x07, 0x08, //  5,  6,   7,  8,
+        0x09, 0x0a, 0xff, 0x0b, //  9, 10, 255, 11,
+        0x0c, 0x0d, 0x0e, 0x0f  // 12, 13, 14, 15
+    };
+
+    ///////////////////////////////////////////// PUT CARD VALUE HERE!!! /////////////////////////////
+
+    dataBlock[0]=1; //card value (check README.md)
+
+
+
 void dump_byte_array(byte *buffer, byte bufferSize) {
     for (byte i = 0; i < bufferSize; i++) {
         Serial.print(buffer[i] < 0x10 ? " 0" : " ");
@@ -49,15 +63,11 @@ void loop() {
 
             byte sector         = 1;
     byte blockAddr      = 4;
-    byte dataBlock[]    = {
-        0x47, 0x01, 0x03, 0x04, //  1,  2,   3,  4,
-        0x05, 0x06, 0x07, 0x08, //  5,  6,   7,  8,
-        0x09, 0x0a, 0xff, 0x0b, //  9, 10, 255, 11,
-        0x0c, 0x0d, 0x0e, 0x0f  // 12, 13, 14, 15
-    };
+
     byte trailerBlock   = 7;
     byte buffer[18];
     byte size = sizeof(buffer);
+
 
 
     MFRC522::StatusCode status;
