@@ -53,7 +53,8 @@ class App():
             if self.readerEnabled:
                 return static_file('index.html',root=self.root)
             else:
-                return static_file('startup.html',root=self.root)
+#                 return static_file('startup.html',root=self.root)
+                redirect("/startup")
         
         @route("/main.css")
         def css():
@@ -85,6 +86,10 @@ class App():
             reader = request.forms.get("reader")
             self.startReader(reader)
             redirect('/')
+        @route("/startup")
+        def startup():
+            return static_file('startup.html',root=self.root)
+
             
         run(host='0.0.0.0',port=8080)
         while True:
