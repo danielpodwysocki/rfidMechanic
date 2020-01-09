@@ -3,6 +3,9 @@ An app that gets a read from rfid marked cards and then, depending on the type o
 
 It also displays approximated chances of winning for each player in hold em (it does so by simulating a 1000 hands, so the margin of error is not benign - it seems to be at least 5 percentage points).
 
+Here's a demonstration video of the hold em mode:
+https://youtu.be/O1KWP25Fn3Y
+
 This is a personal project and it's definietely nowhere close to finished (although most of the code is here, there's still some stuff to figure out with making this fit into a practical size, getting a better reader that can read through a table, improving how tags fit into cards and so on).
 
 Thus there is no support promised whatsoever and the notes here are as much for me some time from now as for anybody who would want to try this, but do feel free to contact me if you run into any problems - however do know that this project is going to move very slowly and because of that I'd advise against setting it up unless you're really interested in such a thing and it may be of use to you.
