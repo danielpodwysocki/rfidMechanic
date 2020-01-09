@@ -4,30 +4,6 @@
 # @author: daniel
 # '''
 
-# class Main(App):
-#     '''
-#     This class has methods for printing the output of the Reader class 
-#     '''
-#     read = Reader()
-#      
-#     def build(self):
-#         self.screen = GameScreen(players=10)
-#         self.screen.test(1) #we can use that principle to create labels for cards AND change em every update, yaaay
-#         return self.screen
-#          
-#     def toWords(self,card):
-#         cards=['ace','two','three','four','five','six','seven','eight','nine','ten','jack','queen','king']
-#         colors = ['clubs','hearts','spades','diamonds']
-#         colorIndex = ceil(card/13)-1
-#         cardIndex = card - colorIndex*13 -1
-#         return (cards[cardIndex]+" of " +colors[colorIndex])
-#          
-#     def display(self):
-#         return self.toWords(self.read.lastRead())
-#      
-#          
-# t = Main()
-# t.run()
 from Reader import Reader
 import threading
 from bottle import route,run,HTTPResponse,static_file,post, redirect, request
@@ -39,7 +15,7 @@ from math import floor
 LARGE_FONT = 10
 MEDIUM_FONT = 5
 class App():
-    cards=[]
+    cards=[1,2,3,14,15,5]
     
     def __init__(self,*args,**kwargs):
 
