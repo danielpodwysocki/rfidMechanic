@@ -38,6 +38,10 @@ body{
 	display: none;
 }
 
+#singleCard{
+  display:none;
+}
+
 #texasHoldEm .clearCardsBtn{
   width: 80vw;
   margin-left: 10vw;
