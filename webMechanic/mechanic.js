@@ -80,7 +80,7 @@ updateCards(playerCount);
 function getCards(){
 	//the ip can be hardcoded, because the app is hosted on the rasp pi access point dedicated just to running that app
 	//right now it's localhost for testing purposes
-	fetch("http://192.168.0.1:8080/get_cards")
+	fetch("http://172.16.1.3:8080/get_cards")
 		.then(resp=>resp.json())
 		.then(resp => {
 			if(resp.length!=cards.length){  //the sample size for the simulation will be configurable later, so we don't want to repeat it,
@@ -102,15 +102,18 @@ playerSlider.oninput = function() {
 	updateCards(playerCount);
 }
 
-clearCardsBtn = document.getElementById('clearCardsBtn');
-clearCardsBtn.onclick = function(){
-	var xhr = new XMLHttpRequest();
-	var url = "clear_cards";
-	xhr.open("POST",url,true);
-	
-	xhr.send();
-	
+clearCardsBtns = document.getElementsByClassName('clearCardsBtn');
+for(let i=0;i<clearCardsBtns.length;i++){
+	clearCardsBtns[i].onclick = function(){
+		var xhr = new XMLHttpRequest();
+		var url = "clear_cards";
+		xhr.open("POST",url,true);
+		
+		xhr.send();
+		
+	}
 }
+
 
 getCards();
 

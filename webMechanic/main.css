@@ -27,10 +27,23 @@ body{
 	
 }
 
+#equalDeal .clearCardsBtn{
+  width: 30vw;
+  font-size: 3vw;
+  margin-left: 2vw;
+  margin-bottom: 1vw;
+}
+
 #texasHoldEm{
 	display: none;
 }
 
+#texasHoldEm .clearCardsBtn{
+  width: 80vw;
+  margin-left: 10vw;
+  font-size: 3vw;
+  margin-bottom:1vw;
+}
 
 
 
