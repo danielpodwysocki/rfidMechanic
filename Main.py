@@ -15,7 +15,7 @@ from math import floor
 LARGE_FONT = 10
 MEDIUM_FONT = 5
 class App():
-    cards=[1,2,3,14,15,5]
+    cards=[]
     
     def __init__(self,*args,**kwargs):
 
