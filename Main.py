@@ -7,7 +7,6 @@
 from Reader import Reader
 import threading
 from bottle import route,run,HTTPResponse,static_file,post, redirect, request
-from time import sleep
 import json
 import sys
 from math import floor
@@ -92,8 +91,7 @@ class App():
 
             
         run(host='0.0.0.0',port=8080)
-        while True:
-            time.sleep(1)
+
     
     
 myApp = App()
