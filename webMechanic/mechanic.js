@@ -16,42 +16,41 @@ function toNames(card){
 }
 
 function updateHoldEm(){
-	//a function that updates the cards for texas hold em (both player hands and the board, the reason we scan the board even though it's known
-	// is because we might want to calculate the winning chances for each player)
+	//a function that updates the cards for texas hold em
+	let playerCount = 2; //by default we're assuming the special case of less than 3 cards
+	if(cards.length>2) playerCount = Math.ceil(cards.length/2); //the solution for any other case
 	
-	var board = [];
-	if(cards.length>3){ 
-		let playerCount = Math.ceil(cards.length/2);
-		
-		let cont = document.getElementById("holdEmGrid");
-		
-		cont.innerHTML="";
-		
-		for(let i=0;i<playerCount;i++){
-			cont.innerHTML+="<div class='holdEmPlayer'>&#13<div class='holdEmProb'></div></div>&#13;"; //&#13 is CR
-		}
-		let players = document.getElementsByClassName("holdEmPlayer");
-		
-		let player = 0;
-		
-		for(let i=0;i<cards.length;i++){// we "deal" the cards into the divs
-			
-			if(player==playerCount) player = 0; //if we already dealt a card for each player, we want to go around one more time
-			players[player].innerHTML+=toNames(cards[i]);
-			player++;
-			
-		}
+	let cont = document.getElementById("holdEmGrid");
+	
+	cont.innerHTML="";
+	
+	for(let i=0;i<playerCount;i++){
+		cont.innerHTML+="<div class='holdEmPlayer'>&#13<div class='holdEmProb'></div></div>&#13;"; //&#13 is CR
 	}
+	let players = document.getElementsByClassName("holdEmPlayer");
+	
+	let player = 0;
+	
+	for(let i=0;i<cards.length;i++){// we "deal" the cards into the divs
+		
+		if(player==playerCount) player = 0; //if we already dealt a card for each player, we want to go around one more time
+		players[player].innerHTML+=toNames(cards[i]);
+		player++;
+		
+		}
 }
 
 function updateHoldEmProb(cards){
-	let probs = holdEmProbability(cards,1000); //the second argument is the sample size - how many times do we want to 
 	let playerCount = cards.length/2;
 	let probsDivs = document.getElementsByClassName("holdEmProb");
-	
 
-	for(let i=0;i<playerCount;i++) probsDivs[i].innerHTML = probs[i].toFixed(2);
-
+	if(cards.length%2==0 && cards.length>2){
+		let probs = holdEmProbability(cards,1000); //the second argument is the sample size - how many hands with given cards we want to simulate
+		for(let i=0;i<playerCount;i++) probsDivs[i].innerHTML = probs[i].toFixed(2);
+	}
+	else{
+		for(let i=0;i<probsDivs.length;i++) probsDivs[i].innerHTML = "...";
+	}
 }
 
 function updateSingleCard(){
@@ -80,7 +79,7 @@ updateCards(playerCount);
 function getCards(){
 	//the ip can be hardcoded, because the app is hosted on the rasp pi access point dedicated just to running that app
 	//right now it's localhost for testing purposes
-	fetch("http://172.16.1.3:8080/get_cards")
+	fetch("http://192.168.0.1:8080/get_cards")
 		.then(resp=>resp.json())
 		.then(resp => {
 			if(resp.length!=cards.length){  //the sample size for the simulation will be configurable later, so we don't want to repeat it,
@@ -89,7 +88,7 @@ function getCards(){
 				updateCards(playerCount);
 				updateHoldEm();
 				updateSingleCard();
-				if(cards.length%2==0 && cards.length!=2) updateHoldEmProb(cards);
+				updateHoldEmProb(cards);
 			}
 		});
 }
